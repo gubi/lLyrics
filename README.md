@@ -3,8 +3,7 @@ lLyrics-auto
 
 lLyrics version: [1.2](https://github.com/dmo60/lLyrics/releases/tag/v1.2)
 
-lLyrics-auto is fork of [lLyrics](https://github.com/dmo60/lLyrics) [v1.2](https://github.com/dmo60/lLyrics/releases/tag/v1.2), the plugin for [Rhythmbox](http://projects.gnome.org/rhythmbox/), which displays lyrics for the current playing song in the sidebar.
-
+lLyrics-auto is fork of [lLyrics](https://github.com/dmo60/lLyrics) [v1.2](https://github.com/dmo60/lLyrics/releases/tag/v1.2), the plugin for [Rhythmbox](http://projects.gnome.org/rhythmbox/), which displays lyrics for the current playing song in the sidebar.<br>
 It is intended as a replacement of the built-in lyrics plugin of Rhythmbox with more features, better UI integration and more lyrics engines.
 
 
