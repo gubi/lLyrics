@@ -67,19 +67,19 @@ context_ui = """
             <menuitem name="lLyricsPopup" action="lLyricsPopupAction"/>
         </placeholder>
       </popup>
- 
+
     <popup name="PlaylistViewPopup">
         <placeholder name="PluginPlaceholder">
             <menuitem name="lLyricsPopup" action="lLyricsPopupAction"/>
         </placeholder>
     </popup>
- 
+
     <popup name="QueuePlaylistViewPopup">
         <placeholder name="PluginPlaceholder">
             <menuitem name="lLyricsPopup" action="lLyricsPopupAction"/>
         </placeholder>
     </popup>
-     
+
     <popup name="PodcastViewPopup">
         <placeholder name="PluginPlaceholder">
             <menuitem name="lLyricsPopup" action="lLyricsPopupAction"/>
@@ -152,9 +152,10 @@ class lLyrics(GObject.Object, Peas.Activatable):
         self.was_corrected = False
 
         # Search lyrics if already playing (this will be the case if user reactivates plugin during playback)
-        if self.player.props.playing:
-            self.search_lyrics(self.player, self.player.get_playing_entry())
-        # Search lyrics everytime the song changes 
+        # if self.player.props.playing:
+        #     self.search_lyrics(self.player, self.player.get_playing_entry())
+        self.search_lyrics(self.player, self.player.get_playing_entry())
+        # Search lyrics everytime the song changes
         self.psc_id = self.player.connect('playing-song-changed', self.search_lyrics)
         # Connect to elapsed-changed signal to handle synchronized lyrics
         self.pec_id = self.player.connect('elapsed-changed', self.elapsed_changed)
@@ -571,11 +572,11 @@ class lLyrics(GObject.Object, Peas.Activatable):
         print("cleared lyrics")
 
     def edit_action_callback(self, action):
-        # Unset event flag to indicate editing and so block all other threads which 
+        # Unset event flag to indicate editing and so block all other threads which
         # want to display new lyrics until editing is finished.
         self.edit_event.clear()
 
-        # Conserve lyrics in order to restore original lyrics when editing is canceled 
+        # Conserve lyrics in order to restore original lyrics when editing is canceled
         start, end = self.textbuffer.get_bounds()
         self.lyrics_before_edit = self.textbuffer.get_text(start, end, False)
         # remove sync tag
@@ -659,7 +660,7 @@ class lLyrics(GObject.Object, Peas.Activatable):
 
         self.set_menu_sensitive(True)
 
-        # Set event flag to indicate end of editing and wake all threads 
+        # Set event flag to indicate end of editing and wake all threads
         # waiting to display new lyrics.
         self.edit_event.set()
 
@@ -682,7 +683,7 @@ class lLyrics(GObject.Object, Peas.Activatable):
 
         self.set_menu_sensitive(True)
 
-        # Set event flag to indicate end of editing and wake all threads 
+        # Set event flag to indicate end of editing and wake all threads
         # waiting to display new lyrics.
         self.edit_event.set()
 
@@ -754,7 +755,7 @@ class lLyrics(GObject.Object, Peas.Activatable):
                     return
                 i += 1
 
-        # We can't display new lyrics while user is editing! 
+        # We can't display new lyrics while user is editing!
         self.edit_event.wait()
 
         # check if playing song changed
@@ -806,7 +807,7 @@ class lLyrics(GObject.Object, Peas.Activatable):
             print("error writing lyrics to cache file")
 
     def get_lyrics_from_source(self, source, artist, title):
-        # Playing song might change during search, so we want to 
+        # Playing song might change during search, so we want to
         # conserve the correct cache path.
         path = self.path
 
@@ -846,7 +847,7 @@ class lLyrics(GObject.Object, Peas.Activatable):
 
         self.textbuffer.set_text("%s - %s\n%s" % (self.artist, self.title, lyrics))
 
-        # make 'artist - title' header bold and underlined 
+        # make 'artist - title' header bold and underlined
         start = self.textbuffer.get_start_iter()
         end = start.copy()
         end.forward_to_line_end()
